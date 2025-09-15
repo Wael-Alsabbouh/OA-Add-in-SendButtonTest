@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" xsi:type="MailApp">
+  <!-- DEV -->
+  <Id>182e94e8-03eb-4d0a-88fa-478bb9a0942c</Id>
+
+  <!-- PROXIMUS -->
+  <!-- <Id>eaf521b3-24cd-41ab-9187-2daa59c50942</Id> -->
+  <Version>1.0.0.2</Version>
+  <ProviderName>Proximus</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue="OA Meeting Room Assistant | SSO"/>
+  <Description DefaultValue="Book your meeting room in a Proximus Building"/>
+  
+  <!-- DEV -->
+    <IconUrl DefaultValue="https://localhost:3000/assets/icon-64.png"/>
+  <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon-128.png"/>
+  <SupportUrl DefaultValue="https://www.contoso.com/help"/>
+  
+  <!-- PROXIMUS -->
+  <!-- <IconUrl DefaultValue="https://proximuscorp.sharepoint.com/:i:/r/sites/TS2110913/Shared%20Documents/OAMeetingAssistant/assets/logo-proximus4.png"/>
+	<HighResolutionIconUrl DefaultValue="https://proximuscorp.sharepoint.com/:i:/r/sites/TS2110913/Shared%20Documents/OAMeetingAssistant/assets/logo-proximus5.png"/>
+	<SupportUrl DefaultValue="https://www.proximus.be/help"/> -->
+  <AppDomains>
+    <!-- DEV -->
+    <AppDomain>https://www.contoso.com</AppDomain>
+
+    <!-- PROXIMUS -->
+    <!-- <AppDomain>https://www.proximus.be</AppDomain> -->
+  </AppDomains>
+  <Hosts>
+    <Host Name="Mailbox"/>
+  </Hosts>
+  <Requirements>
+    <Sets>
+      <Set Name="Mailbox" MinVersion="1.14"/>
+    </Sets>
+  </Requirements>
+  <FormSettings>
+    <Form xsi:type="ItemRead">
+      <DesktopSettings>
+        <!-- DEV -->
+        <SourceLocation DefaultValue="https://localhost:3000/taskpane.html"/>
+        <!-- PROXIMUS -->
+        <!-- <SourceLocation DefaultValue="https://robertocampione.github.io/OAMeetingAssistant/taskpane.html"/> -->
+        <RequestedHeight>250</RequestedHeight>
+      </DesktopSettings>
+    </Form>
+  </FormSettings>
+  <Permissions>ReadWriteMailbox</Permissions>
+  <Rule xsi:type="RuleCollection" Mode="Or">
+    <!-- <Rule xsi:type="ItemIs" ItemType="Message" FormType="Edit" /> -->
+    <Rule xsi:type="ItemIs" ItemType="Appointment" FormType="Edit"/>
+    <!-- <Rule xsi:type="ItemIs" ItemType="Message" FormType="Read" /> -->
+    <Rule xsi:type="ItemIs" ItemType="Appointment" FormType="Read"/>
+	<Rule xsi:type="ItemHasKnownEntity" EntityType="Url"/>
+  </Rule>
+  <DisableEntityHighlighting>false</DisableEntityHighlighting>
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
+    <!-- NEW FOR SSO GENERIC TEST  -->
+    <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
+      <Requirements>
+        <bt:Sets DefaultMinVersion="1.14">
+          <bt:Set Name="Mailbox"/>
+        </bt:Sets>
+      </Requirements>
+      <Hosts>
+        <Host xsi:type="MailHost">
+          <DesktopFormFactor>
+            <FunctionFile resid="Commands.Url"/>
+            
+            <!-- Organizer: pulsante per chi organizza -->
+					<ExtensionPoint xsi:type="AppointmentOrganizerCommandSurface">
+						<OfficeTab id="TabMeeting">
+							<Group id="orgGroup">
+								<Label resid="GroupLabel"/>
+								<Control xsi:type="Button" id="appointmentOpenPaneButtonOrg">
+									<Label resid="TaskpaneButton.Label"/>
+									<Supertip>
+										<Title resid="TaskpaneButton.Label"/>
+										<Description resid="TaskpaneButton.Tooltip"/>
+									</Supertip>
+									<Icon>
+										<bt:Image size="16" resid="Icon.16x16"/>
+										<bt:Image size="32" resid="Icon.32x32"/>
+										<bt:Image size="80" resid="Icon.80x80"/>
+									</Icon>
+									<Action xsi:type="ShowTaskpane">
+										<SourceLocation resid="Taskpane.Url"/>
+									</Action>
+								</Control>
+							</Group>
+						</OfficeTab>
+					</ExtensionPoint>
+
+
+  
+  <!-- <ExtensionPoint xsi:type="AppointmentOrganizerCommandSurface">
+  <OfficeTab id="TabMeeting">
+    <Group id="MeetingConfirmGroup">
+      <Label resid="MeetingConfirmGroup.Label"/>
+      <Control xsi:type="Button" id="CloseWindowButton">
+        <Label resid="CloseWindowButton.Label"/>
+        <Supertip>
+          <Title resid="CloseWindowButton.Label"/>
+          <Description resid="CloseWindowButton.Tooltip"/>
+        </Supertip>
+        <Icon>
+          <bt:Image size="16" resid="Icon.16x16"/>
+          <bt:Image size="32" resid="Icon.32x32"/>
+          <bt:Image size="80" resid="Icon.80x80"/>
+        </Icon>
+        <Action xsi:type="ExecuteFunction">
+          <FunctionName>discardMeeting</FunctionName>
+        </Action>
+      </Control>
+    </Group>
+  </OfficeTab>
+</ExtensionPoint> -->
+
+
+
+					<!-- Attendee: nuovo pulsante RSVP -->
+					
+					  <!-- Message Read / AppointmentAttendeeCommandSurface does not work  -->
+					  <ExtensionPoint xsi:type="MessageReadCommandSurface">
+						<!-- Use the default tab of the ExtensionPoint or create your own with <CustomTab id="myTab"> -->
+						<OfficeTab id="TabDefault">
+						  <!-- Up to 6 Groups added per Tab -->
+						  <Group id="msgReadGroup">
+							<Label resid="AttendanceGroup.Label" />
+							<!-- Launch the add-in : task pane button -->
+							<Control xsi:type="Button" id="btnInPerson2">
+							  <Label resid="InPersonButton.Label" />
+							  <Supertip>
+								<Title resid="InPersonButton.Label" />
+								<Description resid="InPersonButton.Tooltip" />
+							  </Supertip>
+							  <Icon>
+								<bt:Image size="16" resid="Icon.InPerson.16x16" />
+								<bt:Image size="32" resid="Icon.InPerson.32x32" />
+								<bt:Image size="80" resid="Icon.InPerson.80x80" />
+							  </Icon>
+							  <Action xsi:type="ExecuteFunction">
+								<FunctionName>inPersonAttendance</FunctionName>
+							  </Action>
+							</Control>
+							<Control xsi:type="Button" id="btnVirtual2">
+									<Label resid="VirtualButton.Label"/>
+									<Supertip>
+										<Title resid="VirtualButton.Label"/>
+										<Description resid="VirtualButton.Tooltip"/>
+									</Supertip>
+									<Icon>
+										<bt:Image size="16" resid="Icon.Online.16x16"/>
+										<bt:Image size="32" resid="Icon.Online.32x32"/>
+										<bt:Image size="80" resid="Icon.Online.80x80"/>
+									</Icon>
+									<Action xsi:type="ExecuteFunction">
+										<FunctionName>virtualAttendance</FunctionName>
+									</Action>
+							</Control>
+							<!-- Go to http://aka.ms/ButtonCommands to learn how to add more Controls: ExecuteFunction and Menu -->
+						  </Group>
+						</OfficeTab>
+					  </ExtensionPoint>
+
+
+
+            <!--SSO Add-in Starts Here -->
+            <ExtensionPoint xsi:type="MessageComposeCommandSurface">
+              <OfficeTab id="TabDefault">
+                <Group id="msgWriteGroup">
+                  <Label resid="GroupLabel"/>
+                  <Control xsi:type="Button" id="getProfileButton">
+                    <Label resid="GetProfileButton.Label"/>
+                    <Supertip>
+                      <Title resid="GetProfileButton.Label"/>
+                      <Description resid="TaskpaneButton.Tooltip"/>
+                    </Supertip>
+                    <Icon>
+                      <bt:Image size="16" resid="Icon.16x16"/>
+                      <bt:Image size="32" resid="Icon.32x32"/>
+                      <bt:Image size="80" resid="Icon.80x80"/>
+                    </Icon>
+                    <Action xsi:type="ShowTaskpane">
+                      <SourceLocation resid="TaskpaneSSO.Url"/>
+                    </Action>
+                  </Control>
+                  <Control xsi:type="Button" id="ActionButton">
+                    <Label resid="ActionButton.Label"/>
+                    <Supertip>
+                      <Title resid="ActionButton.Label"/>
+                      <Description resid="ActionButton.Tooltip"/>
+                    </Supertip>
+                    <Icon>
+                      <bt:Image size="16" resid="Icon.16x16"/>
+                      <bt:Image size="32" resid="Icon.32x32"/>
+                      <bt:Image size="80" resid="Icon.80x80"/>
+                    </Icon>
+                    <Action xsi:type="ExecuteFunction">
+                      <FunctionName>action</FunctionName>
+                    </Action>
+                  </Control>
+                  <!-- Go to http://aka.ms/ButtonCommands to learn how to add more Controls: ExecuteFunction and Menu -->
+                </Group>
+              </OfficeTab>
+
+            <!-- NEW FOR SSO GENERIC TEST | ROBERTO TEST  -->
+             <!-- </ExtensionPoint>
+						<ExtensionPoint xsi:type="MessageComposeCommandSurface">
+						  <OfficeTab id="TabDefault">
+							<Group id="profileGroup">
+							  <Label resid="GetProfileGroup.Label"/>
+							  <Control xsi:type="Button" id="getProfileButton">
+								<Label resid="GetProfileButton.Label"/>
+								<Supertip>
+								  <Title resid="GetProfileButton.Label"/>
+								  <Description resid="GetProfileButton.Tooltip"/>
+								</Supertip>
+								<Icon>
+								  <bt:Image size="16" resid="Icon.16x16"/>
+								  <bt:Image size="32" resid="Icon.32x32"/>
+								  <bt:Image size="80" resid="Icon.80x80"/>
+								</Icon>
+								<Action xsi:type="ExecuteFunction">
+								  <FunctionName>getUserProfile</FunctionName>
+								</Action>
+							  </Control> 
+							</Group>
+						  </OfficeTab>-->
+						</ExtensionPoint>
+          </DesktopFormFactor>
+        </Host>
+      </Hosts>
+      <Resources>
+        <bt:Images>
+          <!-- DEV URLs -->
+          <bt:Image id="Icon.16x16" DefaultValue="https://localhost:3000/assets/icon-16.png"/>
+          <bt:Image id="Icon.32x32" DefaultValue="https://localhost:3000/assets/icon-32.png"/>																																				  
+          <bt:Image id="Icon.80x80" DefaultValue="https://localhost:3000/assets/icon-80.png"/>
+          
+          <bt:Image id="Icon.InPerson.16x16" DefaultValue="https://localhost:3000/assets/inperson-16.png"/>
+          <bt:Image id="Icon.InPerson.32x32" DefaultValue="https://localhost:3000/assets/inperson-32.png"/>
+          <bt:Image id="Icon.InPerson.80x80" DefaultValue="https://localhost:3000/assets/inperson-80.png"/>
+          <bt:Image id="Icon.Online.16x16" DefaultValue="https://localhost:3000/assets/online-16.png"/>
+          <bt:Image id="Icon.Online.32x32" DefaultValue="https://localhost:3000/assets/online-32.png"/>
+          <bt:Image id="Icon.Online.80x80" DefaultValue="https://localhost:3000/assets/online-80.png"/>
+          <bt:Image id="InPerson.Big" DefaultValue="https://localhost:3000/assets/inperson-big.png"/>
+          <bt:Image id="Online.Big" DefaultValue="https://localhost:3000/assets/online-big.png"/>
+
+          <!-- PROXIMUS URLs -->
+          <!-- <bt:Image id="Icon.16x16" DefaultValue="https://proximuscorp.sharepoint.com/:i:/r/sites/TS2110913/Shared%20Documents/OAMeetingAssistant/assets/icon-16.png"/>
+          <bt:Image id="Icon.32x32" DefaultValue="https://proximuscorp.sharepoint.com/:i:/r/sites/TS2110913/Shared%20Documents/OAMeetingAssistant/assets/icon-32.png"/>
+          <bt:Image id="Icon.80x80" DefaultValue="https://proximuscorp.sharepoint.com/:i:/r/sites/TS2110913/Shared%20Documents/OAMeetingAssistant/assets/icon-80.png"/>
+          
+          <bt:Image id="Icon.InPerson.16x16" DefaultValue="https://proximuscorp.sharepoint.com/:i:/r/sites/TS2110913/Shared%20Documents/OAMeetingAssistant/assets/inperson-16.png"/>
+          <bt:Image id="Icon.InPerson.32x32" DefaultValue="https://proximuscorp.sharepoint.com/:i:/r/sites/TS2110913/Shared%20Documents/OAMeetingAssistant/assets/inperson-32.png"/>
+          <bt:Image id="Icon.InPerson.80x80" DefaultValue="https://proximuscorp.sharepoint.com/:i:/r/sites/TS2110913/Shared%20Documents/OAMeetingAssistant/assets/inperson-80.png"/>
+          <bt:Image id="Icon.Online.16x16" DefaultValue="https://proximuscorp.sharepoint.com/:i:/r/sites/TS2110913/Shared%20Documents/OAMeetingAssistant/assets/online-16.png"/>
+          <bt:Image id="Icon.Online.32x32" DefaultValue="https://proximuscorp.sharepoint.com/:i:/r/sites/TS2110913/Shared%20Documents/OAMeetingAssistant/assets/online-32.png"/>
+          <bt:Image id="Icon.Online.80x80" DefaultValue="https://proximuscorp.sharepoint.com/:i:/r/sites/TS2110913/Shared%20Documents/OAMeetingAssistant/assets/online-80.png"/>
+          <bt:Image id="InPerson.Big" DefaultValue="https://proximuscorp.sharepoint.com/:i:/r/sites/TS2110913/Shared%20Documents/OAMeetingAssistant/assets/inperson-big.png"/>
+          <bt:Image id="Online.Big" DefaultValue="https://proximuscorp.sharepoint.com/:i:/r/sites/TS2110913/Shared%20Documents/OAMeetingAssistant/assets/online-big.png"/> -->
+	
+        </bt:Images>
+        <bt:Urls>
+		<!-- DEV URLs -->
+          <bt:Url id="Commands.Url" DefaultValue="https://localhost:3000/commands.html"/>
+          <bt:Url id="Attendance.Url" DefaultValue="https://localhost:3000/attendance.html"/>
+          <bt:Url id="Taskpane.Url" DefaultValue="https://localhost:3000/taskpane.html"/>
+          <bt:Url id="TaskpaneSSO.Url" DefaultValue="https://localhost:3000/taskpaneSSO.html"/>
+		  
+		  <!-- PROXIMUS URLs -->
+			<!-- <bt:Url id="Commands.Url" DefaultValue="https://robertocampione.github.io/OAMeetingAssistant/attendance.html"/>															   
+			<bt:Url id="Taskpane.Url" DefaultValue="https://robertocampione.github.io/OAMeetingAssistant/taskpane.html"/>
+			<bt:Url id="TaskpaneSSO.Url" DefaultValue="https://proximuscorp.sharepoint.com/:i:/r/sites/TS2110913/Shared%20Documents/OAMeetingAssistant/taskpaneSSO.html"/> -->
+        </bt:Urls>
+        <bt:ShortStrings>
+          <bt:String id="GroupLabel" DefaultValue="Proximus Add-in"/>
+          <bt:String id="TaskpaneButton.Label" DefaultValue="Show Task Pane"/>
+          <bt:String id="ActionButton.Label" DefaultValue="Perform an action"/>
+          <bt:String id="AttendanceGroup.Label" DefaultValue="Attendance"/>
+          <bt:String id="AttendanceMenu.Label" DefaultValue="Specify Presence"/>
+          <bt:String id="InPersonButton.Label" DefaultValue="In person"/>
+          <bt:String id="VirtualButton.Label" DefaultValue="Online"/>
+          <bt:String id="GetProfileGroup.Label" DefaultValue="User Info"/>
+          <bt:String id="GetProfileButton.Label" DefaultValue="Get Profile"/>
+
+<bt:String id="MeetingConfirmGroup.Label" DefaultValue="Meeting Actions"/>
+<bt:String id="CloseWindowButton.Label" DefaultValue="Discard Meeting"/>
+        </bt:ShortStrings>
+      <bt:LongStrings>
+        <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Opens a pane displaying all available properties."/>
+        <bt:String id="ActionButton.Tooltip" DefaultValue="Perform an action when clicked."/>
+        <bt:String id="InPersonButton.Tooltip" DefaultValue="Confirm in-person attendance for this meeting."/>
+        <bt:String id="VirtualButton.Tooltip" DefaultValue="Confirm online attendance for this meeting."/>
+        <bt:String id="GetProfileButton.Tooltip" DefaultValue="Fetch user profile using Graph API."/>
+
+<bt:String id="CloseWindowButton.Tooltip" DefaultValue="Discard the current meeting and close the window."/>
+
+      </bt:LongStrings>
+      </Resources>
+      <WebApplicationInfo>
+        <!-- DEV -->
+		    <Id>c66cd1d7-1b89-47cf-a52a-0d3957b3de90</Id>
+        <Resource>api://localhost:3000/c66cd1d7-1b89-47cf-a52a-0d3957b3de90</Resource>
+
+        <!-- PROXIMUS -->
+		    <!-- <Id>e8f07e89-4853-4f09-abd9-bbd398d2875c</Id>
+        <Resource>api://robertocampione.github.io/OAMeetingAssistant/e8f07e89-4853-4f09-abd9-bbd398d2875c</Resource> -->
+        <Scopes>
+          <Scope>Calendars.Read</Scope> <!-- EXTRA SCOPE ADDED FOR CALENDAR SCOPE -->
+          <Scope>User.Read</Scope>
+          <Scope>profile</Scope>
+        </Scopes>
+      </WebApplicationInfo>
+    </VersionOverrides>
+  </VersionOverrides>
+</OfficeApp>
