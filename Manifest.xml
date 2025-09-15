@@ -207,28 +207,34 @@
 
             <!-- NEW FOR SSO GENERIC TEST | ROBERTO TEST  -->
              <!-- </ExtensionPoint>
-						<ExtensionPoint xsi:type="MessageComposeCommandSurface">
-						  <OfficeTab id="TabDefault">
-							<Group id="profileGroup">
-							  <Label resid="GetProfileGroup.Label"/>
-							  <Control xsi:type="Button" id="getProfileButton">
-								<Label resid="GetProfileButton.Label"/>
-								<Supertip>
-								  <Title resid="GetProfileButton.Label"/>
-								  <Description resid="GetProfileButton.Tooltip"/>
-								</Supertip>
-								<Icon>
-								  <bt:Image size="16" resid="Icon.16x16"/>
-								  <bt:Image size="32" resid="Icon.32x32"/>
-								  <bt:Image size="80" resid="Icon.80x80"/>
-								</Icon>
-								<Action xsi:type="ExecuteFunction">
-								  <FunctionName>getUserProfile</FunctionName>
-								</Action>
-							  </Control> 
-							</Group>
-						  </OfficeTab>-->
-						</ExtensionPoint>
+                                                <ExtensionPoint xsi:type="MessageComposeCommandSurface">
+                                                  <OfficeTab id="TabDefault">
+                                                        <Group id="profileGroup">
+                                                          <Label resid="GetProfileGroup.Label"/>
+                                                          <Control xsi:type="Button" id="getProfileButton">
+                                                                <Label resid="GetProfileButton.Label"/>
+                                                                <Supertip>
+                                                                  <Title resid="GetProfileButton.Label"/>
+                                                                  <Description resid="GetProfileButton.Tooltip"/>
+                                                                </Supertip>
+                                                                <Icon>
+                                                                  <bt:Image size="16" resid="Icon.16x16"/>
+                                                                  <bt:Image size="32" resid="Icon.32x32"/>
+                                                                  <bt:Image size="80" resid="Icon.80x80"/>
+                                                                </Icon>
+                                                                <Action xsi:type="ExecuteFunction">
+                                                                  <FunctionName>getUserProfile</FunctionName>
+                                                                </Action>
+                                                          </Control>
+                                                        </Group>
+                                                  </OfficeTab>-->
+                                                </ExtensionPoint>
+                                                <ExtensionPoint xsi:type="LaunchEvent">
+                                                  <SourceLocation resid="Commands.Url"/>
+                                                  <LaunchEvents>
+                                                    <LaunchEvent Type="OnAppointmentSend" FunctionName="onAppointmentSendHandler"/>
+                                                  </LaunchEvents>
+                                                </ExtensionPoint>
           </DesktopFormFactor>
         </Host>
       </Hosts>
